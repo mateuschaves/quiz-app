@@ -1,16 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Alert } from 'react-native';
-import { useDispatch } from 'react-redux';
 
 import Button from '~/components/Button';
+import { navigate } from '~/navigation/NavigationService';
 
 import {
   Container, Input, Title, Buttons,
 } from './styles';
 
 export default function HomeScreen() {
-  const dispatch = useDispatch();
-
   const [quizAmount, setQuizAmount] = useState<number>();
 
   function handleCancelClick() {
@@ -20,6 +18,8 @@ export default function HomeScreen() {
   function handleStartClick() {
     if (!quizAmount) {
       Alert.alert('Insert a valid value 😀', 'Questions amout need to be greater than 0');
+    } else {
+      navigate('Quiz', {});
     }
   }
 

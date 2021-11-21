@@ -8,8 +8,9 @@ import {
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Ionicons } from '@expo/vector-icons';
 
-import HomeScreen from '~/screens/HomeScreen';
 import HistoryScreen from '~/screens/HistoryScreen';
+
+import QuizNavigator from './QuizNavigator';
 
 import colors from '~/theme/colors';
 
@@ -34,7 +35,7 @@ export default function TabNavigator() {
     >
       <Tabs.Screen
         name="Home"
-        component={HomeScreen}
+        component={QuizNavigator}
         options={{
           tabBarIcon: ({ color }) => <Ionicons name="home" size={24} color={color} />,
         }}
