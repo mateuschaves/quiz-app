@@ -3,7 +3,7 @@ import { View, Text } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { sayHiActions } from '~/store/ducks/Greeting/SayHi';
 
-export default function Home() {
+export default function HomeScreen() {
   const dispatch = useDispatch();
 
   useEffect(() => {
