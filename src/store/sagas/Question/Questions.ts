@@ -30,6 +30,7 @@ export function* fetchQuestionsSaga({ payload }: fetchQuestionsSagaProps) {
       exam_id: uuid.v4().toString(),
       answers: [],
       score: 0,
+      time: Date.now(),
     };
 
     yield put(questionsActions.fetchQuestionsSuccess(exam));

@@ -16,6 +16,7 @@ import {
 import Button from '~/components/Button';
 import { navigate } from '~/navigation/NavigationService';
 import { Exam, InitialFetchQuestionsStateProps, RootState } from '~/@types/store/app.state';
+import { getScoreStatistic } from '~/utils/score';
 
 export default function ResultScreen() {
   const { exams, loading } = useSelector<RootState, InitialFetchQuestionsStateProps>(
@@ -31,11 +32,6 @@ export default function ResultScreen() {
 
   function handlePlayAgainClick() {
     navigate('QuizAmount', {});
-  }
-
-  function getScoreStatistic(allQuestions: number, correctQuestions: number) {
-    if (!allQuestions) return '0%';
-    return `${((correctQuestions / allQuestions) * 100).toFixed(0)}%`;
   }
 
   return (

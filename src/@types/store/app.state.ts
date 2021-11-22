@@ -6,6 +6,7 @@ export interface Exam {
     questions: Question[];
     answers: QuestionAwnser[];
     score: number;
+    time: number;
 }
 
 export interface InitialFetchQuestionsStateProps {
