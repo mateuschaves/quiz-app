@@ -6,7 +6,7 @@ export const QuestionContainer = styled.View`
   background-color: ${colors.primary};
   border-radius: 8px;
   width: 90%;
-  height: 200px;
+  height: 159px;
   padding: 8px;
 `;
 

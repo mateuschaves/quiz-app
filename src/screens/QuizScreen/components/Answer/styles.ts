@@ -25,7 +25,7 @@ export const Container = styled.TouchableOpacity<StatusProps>`
   background-color: ${(props) => ContainerBackgroundColor[props.status || 'DEFAULT']};
   border-width: 1px;
   border-color: ${(props) => ContainerBorderColor[props.status || 'DEFAULT']};
-  height: 56px;
+  height: 48px;
   width: 90%;
   border-radius: 8px;
   justify-content: center;

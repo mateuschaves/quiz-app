@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Vibration, ActivityIndicator } from 'react-native';
+import { Vibration, ActivityIndicator, ScrollView } from 'react-native';
 import he from 'he';
 
 import colors from '~/theme/colors';
