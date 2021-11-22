@@ -15,9 +15,12 @@ export default function HistoryScreen() {
 
   return (
     <Container>
-      {exams.map((exam) => (
-        <ExamItem key={exam.exam_id} exam={exam} />
-      ))}
+      {exams
+        .sort((a, b) => a.time - b.time)
+        .filter((exam) => exam.questions.length === exam.answers.length)
+        .map((exam) => (
+          <ExamItem key={exam.exam_id} exam={exam} />
+        ))}
     </Container>
   );
 }
