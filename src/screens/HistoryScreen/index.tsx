@@ -11,13 +11,14 @@ export default function HistoryScreen() {
     (state) => state.questions,
   );
 
-  if (!exams.length) return <EmptyHistory />;
+  const validExams = exams.filter((exam) => exam.questions.length === exam.answers.length);
+
+  if (!validExams.length) return <EmptyHistory />;
 
   return (
     <Container>
-      {exams
+      {validExams
         .sort((a, b) => a.time - b.time)
-        .filter((exam) => exam.questions.length === exam.answers.length)
         .map((exam) => (
           <ExamItem key={exam.exam_id} exam={exam} />
         ))}
