@@ -58,8 +58,12 @@ export default function Question({
   }
 
   function handleAnswerClick(answer: string) {
-    setAnswerSelected(answer);
-    onAwnser(answer);
+    if (!answerSelected) {
+      setAnswerSelected(answer);
+      onAwnser(answer);
+    } else {
+      Vibration.vibrate();
+    }
   }
 
   function renderAnswers() {
