@@ -3,12 +3,12 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 
 import { navigationRef } from './NavigationService';
-import TabNavigator from './navigators/TabNavigator';
+import RootNavigator from './navigators/RootNavigator';
 
 export default function Routes() {
   return (
     <NavigationContainer ref={navigationRef}>
-      <TabNavigator />
+      <RootNavigator />
     </NavigationContainer>
   );
 }
