@@ -1,10 +1,10 @@
 /* eslint-disable camelcase */
-import { Question, QuestionAwnser } from '../dto/question';
+import { Question, QuestionAnswer } from '../dto/question';
 
 export interface Exam {
     exam_id: string;
     questions: Question[];
-    answers: QuestionAwnser[];
+    answers: QuestionAnswer[];
     score: number;
     time: number;
 }

@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Vibration, ActivityIndicator, ScrollView } from 'react-native';
+import { Vibration, ActivityIndicator } from 'react-native';
 import he from 'he';
 
 import colors from '~/theme/colors';
 
-import AnswerStatus from '../../enums/AnswerStatusEnum';
-import Answer from '../Answer';
+import AnswerStatus from '../../screens/QuizScreen/enums/AnswerStatusEnum';
+import Answer from '~/components/Answer';
 
 import {
   QuestionContainer,
@@ -23,7 +23,9 @@ interface QuestionProps {
   currentQuestion: number;
   loading: boolean;
   // eslint-disable-next-line no-unused-vars
-  onAwnser: (answer: string) => void;
+  onAnswer: (answer: string) => void;
+  readOnly: boolean;
+  readOnlyAnswer: string;
 }
 
 const ONE_SECOND_IN_MS = 1000;
@@ -35,18 +37,31 @@ export default function Question({
   questionsAmount,
   currentQuestion,
   loading,
-  onAwnser,
+  onAnswer,
+  readOnly = false,
+  readOnlyAnswer,
 }: QuestionProps) {
   const [answers, setAnswers] = useState<string[]>([]);
   const [answerSelected, setAnswerSelected] = useState('');
 
   useEffect(() => {
+    if (readOnly && readOnlyAnswer) {
+      setAnswerSelected(readOnlyAnswer);
+    }
+  }, [readOnlyAnswer]);
+
+  useEffect(() => {
     setAnswers([...incorrectAnswers, correctAnswer].sort());
-    setAnswerSelected('');
+    if (!readOnly) {
+      setAnswerSelected('');
+    }
   }, [incorrectAnswers, correctAnswer]);
 
   function getAnswerStatus(CurrentAnswerItem: string): string {
-    if (CurrentAnswerItem === answerSelected && answerSelected === correctAnswer) {
+    if (
+      (CurrentAnswerItem === answerSelected && answerSelected === correctAnswer)
+      || (readOnly && CurrentAnswerItem === correctAnswer)
+    ) {
       Vibration.vibrate();
       return AnswerStatus.CORRECT;
     }
@@ -60,9 +75,9 @@ export default function Question({
   }
 
   function handleAnswerClick(answer: string) {
-    if (!answerSelected) {
+    if (!answerSelected && !readOnly) {
       setAnswerSelected(answer);
-      onAwnser(answer);
+      onAnswer(answer);
     } else {
       Vibration.vibrate(0.5 * ONE_SECOND_IN_MS);
     }

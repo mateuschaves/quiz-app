@@ -12,7 +12,7 @@ export interface Question {
   incorrect_answers: string[];
 }
 
-export interface QuestionAwnser extends Question {
+export interface QuestionAnswer extends Question {
   answer: string;
   exam_id?: string;
 }

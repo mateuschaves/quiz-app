@@ -13,6 +13,7 @@ import HistoryScreen from '~/screens/HistoryScreen';
 import QuizNavigator from './QuizNavigator';
 
 import colors from '~/theme/colors';
+import HistoryNavigator from './HistoryNavigator';
 
 const Tabs = AnimatedTabBarNavigator();
 
@@ -42,7 +43,7 @@ export default function TabNavigator() {
       />
       <Tabs.Screen
         name="History"
-        component={HistoryScreen}
+        component={HistoryNavigator}
         options={{
           tabBarIcon: ({ color }) => (
             <Ionicons name="document-text-outline" size={24} color={color} />

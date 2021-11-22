@@ -4,13 +4,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import Header from '~/components/Header';
 
 import { Container, Content } from './styles';
-import Question from './components/Question/index';
-import { RootState, InitialFetchQuestionsStateProps } from '~/@types/store/app.state';
-import { Question as IQuestion } from '~/@types/dto/question';
-import { questionsActions } from '../../store/ducks/Question/Questions';
-import { QuestionAwnser } from '../../@types/dto/question';
+import Question from '~/components/Question/index';
+import { RootState, InitialFetchQuestionsStateProps, Exam } from '~/@types/store/app.state';
+import { Question as IQuestion, QuestionAnswer } from '~/@types/dto/question';
+import { questionsActions } from '~/store/ducks/Question/Questions';
 import { navigate } from '~/navigation/NavigationService';
-import { Exam } from '../../@types/store/app.state';
 
 interface CurrentQuestionStateProps {
   question: IQuestion;
@@ -38,8 +36,8 @@ export default function QuizScreen() {
     });
   }, [loading]);
 
-  function onAwnser(answer: string) {
-    const questionAnswer: QuestionAwnser = {
+  function onAnswer(answer: string) {
+    const questionAnswer: QuestionAnswer = {
       ...currentQuestion?.question,
       answer,
       exam_id: currentExam?.exam_id,
@@ -74,7 +72,8 @@ export default function QuizScreen() {
           questionsAmount={currentExam?.questions?.length || 0}
           currentQuestion={(currentQuestion?.index || 0) + 1}
           loading={loading}
-          onAwnser={(awnser: string) => onAwnser(awnser)}
+          onAnswer={(answer: string) => onAnswer(answer)}
+          readOnly={false}
         />
       </Content>
     </Container>

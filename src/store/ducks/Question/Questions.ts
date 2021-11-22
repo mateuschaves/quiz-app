@@ -1,7 +1,7 @@
 /* eslint-disable no-case-declarations */
 /* eslint-disable camelcase */
 import { AxiosError } from 'axios';
-import { FetchQuestionDto, QuestionAwnser } from '../../../@types/dto/question';
+import { FetchQuestionDto, QuestionAnswer } from '../../../@types/dto/question';
 import { Exam, InitialFetchQuestionsStateProps } from '../../../@types/store/app.state';
 
 export const questionsTypes = {
@@ -24,7 +24,7 @@ export const questionsActions = {
     type: questionsTypes.FETCH_QUESTIONS_ERROR,
     payload: error,
   }),
-  anwserQuestion: (data: QuestionAwnser) => ({
+  anwserQuestion: (data: QuestionAnswer) => ({
     type: questionsTypes.ANWSER_QUESTION,
     payload: data,
   }),

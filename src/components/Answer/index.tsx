@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container, Title } from './styles';
-import AnswerStatus from '../../enums/AnswerStatusEnum';
+import AnswerStatus from '../../screens/QuizScreen/enums/AnswerStatusEnum';
 
 const { CORRECT, WRONG, DEFAULT } = AnswerStatus;
 

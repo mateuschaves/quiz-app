@@ -10,12 +10,17 @@ import {
 } from './styles';
 import { timeSince } from '~/utils/date';
 import { getScoreStatistic } from '~/utils/score';
+import { navigate } from '~/navigation/NavigationService';
 
 interface ExamItemProps {
   exam: Exam;
 }
 
 export default function ExamItem({ exam }: ExamItemProps) {
+  function handleExamClick() {
+    navigate('Visualize', exam);
+  }
+
   return (
     <Container
       style={{
@@ -29,6 +34,7 @@ export default function ExamItem({ exam }: ExamItemProps) {
 
         elevation: 3,
       }}
+      onPress={() => handleExamClick()}
     >
       <Time>
         {timeSince(new Date(exam?.time))}
