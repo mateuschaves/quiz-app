@@ -62,7 +62,7 @@ export default function Question({
       setAnswerSelected(answer);
       onAwnser(answer);
     } else {
-      Vibration.vibrate();
+      Vibration.vibrate(0.5 * ONE_SECOND_IN_MS);
     }
   }
 
