@@ -1,3 +1,3 @@
-import GreetingService from './GreetingService';
+import QuestionService from './QuestionService';
 
-export { GreetingService };
+export { QuestionService };

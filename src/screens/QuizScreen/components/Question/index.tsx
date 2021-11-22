@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Vibration } from 'react-native';
+import { Vibration, ActivityIndicator } from 'react-native';
+import colors from '~/theme/colors';
 
 import AnswerStatus from '../../enums/AnswerStatusEnum';
 import Answer from '../Answer';
@@ -18,6 +19,8 @@ interface QuestionProps {
   incorrectAnswers: string[];
   questionsAmount: number;
   currentQuestion: number;
+  loading: boolean;
+  onAwnser: () => void;
 }
 
 const ONE_SECOND_IN_MS = 1000;
@@ -28,13 +31,15 @@ export default function Question({
   incorrectAnswers,
   questionsAmount,
   currentQuestion,
+  loading,
+  onAwnser,
 }: QuestionProps) {
   const [answers, setAnswers] = useState<string[]>([]);
   const [answerSelected, setAnswerSelected] = useState('');
 
   useEffect(() => {
-    setAnswers([...incorrectAnswers, correctAnswer]);
-  }, []);
+    setAnswers([...incorrectAnswers, correctAnswer].sort());
+  }, [incorrectAnswers, correctAnswer]);
 
   function getAnswerStatus(CurrentAnswerItem: string): string {
     if (CurrentAnswerItem === answerSelected && answerSelected === correctAnswer) {
@@ -50,31 +55,40 @@ export default function Question({
     return AnswerStatus.DEFAULT;
   }
 
+  function handleAnswerClick(answer: string) {
+    setAnswerSelected(answer);
+    onAwnser();
+  }
+
   function renderAnswers() {
     return answers.map((answer) => (
       <Answer
         key={answer}
         title={answer}
         status={getAnswerStatus(answer)}
-        onPress={() => setAnswerSelected(answer)}
+        onPress={() => handleAnswerClick(answer)}
       />
     ));
   }
 
   return (
     <>
-      <QuestionContainer>
-        <QuestionInfo>
-          <QuestionIndex>
-            {currentQuestion}
-            /
-            {questionsAmount}
-          </QuestionIndex>
-        </QuestionInfo>
-        <QuestionContent>
-          <QuestionTitle>{question}</QuestionTitle>
-        </QuestionContent>
-      </QuestionContainer>
+      {loading ? (
+        <ActivityIndicator size={32} color={colors.primary} />
+      ) : (
+        <QuestionContainer>
+          <QuestionInfo>
+            <QuestionIndex>
+              {currentQuestion}
+              /
+              {questionsAmount}
+            </QuestionIndex>
+          </QuestionInfo>
+          <QuestionContent>
+            <QuestionTitle>{question}</QuestionTitle>
+          </QuestionContent>
+        </QuestionContainer>
+      )}
       {renderAnswers()}
     </>
   );

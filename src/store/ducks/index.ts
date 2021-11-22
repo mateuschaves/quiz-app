@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux';
 
-import { sayHiReducer as sayHi } from './Greeting/SayHi';
+import { questionsReducer as questions } from './Question/Questions';
 
-const createRootReducers = () => combineReducers({
-  sayHi,
+const reducers = combineReducers({
+  questions,
 });
 
-export default createRootReducers;
+export default reducers;

@@ -31,6 +31,7 @@ export const Container = styled.TouchableOpacity<StatusProps>`
   justify-content: center;
   align-self: center;
   margin-top: 16px;
+  padding: 8px;
 `;
 
 export const Title = styled.Text<StatusProps>`

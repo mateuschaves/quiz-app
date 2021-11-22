@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { Alert } from 'react-native';
+import { useDispatch } from 'react-redux';
 
 import Button from '~/components/Button';
-import { navigate } from '~/navigation/NavigationService';
+
+import { questionsActions } from '../../store/ducks/Question/Questions';
 
 import {
   Container, Input, Title, Buttons,
@@ -10,6 +12,8 @@ import {
 
 export default function HomeScreen() {
   const [quizAmount, setQuizAmount] = useState<number>();
+
+  const dispatch = useDispatch();
 
   function handleCancelClick() {
     setQuizAmount(undefined);
@@ -19,7 +23,7 @@ export default function HomeScreen() {
     if (!quizAmount) {
       Alert.alert('Insert a valid value 😀', 'Questions amout need to be greater than 0');
     } else {
-      navigate('Quiz', {});
+      dispatch(questionsActions.fetchQuestions({ amount: quizAmount }));
     }
   }
 
