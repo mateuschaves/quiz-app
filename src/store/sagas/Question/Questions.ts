@@ -2,6 +2,7 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
 
 import { AxiosResponse } from 'axios';
+import uuid from 'react-native-uuid';
 
 import { AnyAction } from 'redux';
 import { FetchQuestionDto } from '~/@types/dto/question';
@@ -10,6 +11,7 @@ import { questionsActions, questionsTypes } from '~/store/ducks/Question/Questio
 import { QuestionService } from '~/services/api/resources';
 import { Question } from '../../../@types/dto/question';
 import { navigate } from '~/navigation/NavigationService';
+import { Exam } from '~/@types/store/app.state';
 
 interface fetchQuestionsSagaProps extends AnyAction {
     payload: FetchQuestionDto
@@ -23,7 +25,14 @@ interface fetchQuestionsResponse {
 export function* fetchQuestionsSaga({ payload }: fetchQuestionsSagaProps) {
   try {
     const response: AxiosResponse<fetchQuestionsResponse> = yield call(QuestionService.fetchQuestions, payload);
-    yield put(questionsActions.fetchQuestionsSuccess(response.data.results));
+    const exam: Exam = {
+      questions: response.data.results,
+      exam_id: uuid.v4().toString(),
+      answers: [],
+      score: 0,
+    };
+
+    yield put(questionsActions.fetchQuestionsSuccess(exam));
     yield navigate('Quiz', {});
   } catch (error: any) {
     yield put(questionsActions.fetchQuestionsError(error));

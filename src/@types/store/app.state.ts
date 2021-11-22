@@ -1,9 +1,15 @@
+/* eslint-disable camelcase */
 import { Question, QuestionAwnser } from '../dto/question';
 
-export interface InitialFetchQuestionsStateProps {
-    testId: string;
+export interface Exam {
+    exam_id: string;
     questions: Question[];
     answers: QuestionAwnser[];
+    score: number;
+}
+
+export interface InitialFetchQuestionsStateProps {
+    exams: Exam[]
     loading: boolean;
     error: any;
 }

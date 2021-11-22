@@ -20,7 +20,8 @@ interface QuestionProps {
   questionsAmount: number;
   currentQuestion: number;
   loading: boolean;
-  onAwnser: () => void;
+  // eslint-disable-next-line no-unused-vars
+  onAwnser: (answer: string) => void;
 }
 
 const ONE_SECOND_IN_MS = 1000;
@@ -39,6 +40,7 @@ export default function Question({
 
   useEffect(() => {
     setAnswers([...incorrectAnswers, correctAnswer].sort());
+    setAnswerSelected('');
   }, [incorrectAnswers, correctAnswer]);
 
   function getAnswerStatus(CurrentAnswerItem: string): string {
@@ -57,7 +59,7 @@ export default function Question({
 
   function handleAnswerClick(answer: string) {
     setAnswerSelected(answer);
-    onAwnser();
+    onAwnser(answer);
   }
 
   function renderAnswers() {

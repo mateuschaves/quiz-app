@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import Header from '~/components/Header';
 
 import { Container, Content } from './styles';
 import Question from './components/Question/index';
 import { RootState, InitialFetchQuestionsStateProps } from '~/@types/store/app.state';
 import { Question as IQuestion } from '~/@types/dto/question';
+import { questionsActions } from '../../store/ducks/Question/Questions';
+import { QuestionAwnser } from '../../@types/dto/question';
 
 interface CurrentQuestionStateProps {
   question: IQuestion;
@@ -14,27 +16,39 @@ interface CurrentQuestionStateProps {
 }
 
 export default function QuizScreen() {
-  const { questions, loading } = useSelector<RootState, InitialFetchQuestionsStateProps>(
+  const dispatch = useDispatch();
+
+  const { exams, loading } = useSelector<RootState, InitialFetchQuestionsStateProps>(
     (state) => state.questions,
   );
 
   const [currentQuestion, setCurrentQuestion] = useState<CurrentQuestionStateProps>();
 
+  const [currentExam] = exams.reverse();
+
   useEffect(() => {
-    const [firstQuestion] = questions;
+    const [firstQuestion] = currentExam.questions;
     setCurrentQuestion({
       question: firstQuestion,
       index: 0,
     });
-  }, [questions]);
+  }, [loading]);
 
-  function onAwnser() {
-    if (currentQuestion && questions[currentQuestion?.index + 1]) {
+  function onAwnser(answer: string) {
+    const questionAnswer: QuestionAwnser = {
+      ...currentQuestion?.question,
+      answer,
+      exam_id: currentExam.exam_id,
+    };
+
+    dispatch(questionsActions.anwserQuestion(questionAnswer));
+
+    if (currentQuestion && currentExam.questions[currentQuestion?.index + 1]) {
       const nextQuestionIndex = currentQuestion?.index + 1;
 
       setTimeout(() => {
         setCurrentQuestion({
-          question: questions[nextQuestionIndex],
+          question: currentExam.questions[nextQuestionIndex],
           index: nextQuestionIndex,
         });
       }, 1500);
@@ -43,16 +57,16 @@ export default function QuizScreen() {
 
   return (
     <Container>
-      <Header score={0} />
+      <Header score={currentExam.score} />
       <Content>
         <Question
           question={currentQuestion?.question.question || ''}
           correctAnswer={currentQuestion?.question.correct_answer || ''}
           incorrectAnswers={currentQuestion?.question.incorrect_answers || []}
-          questionsAmount={questions?.length}
+          questionsAmount={currentExam.questions?.length}
           currentQuestion={(currentQuestion?.index || 0) + 1}
           loading={loading}
-          onAwnser={() => onAwnser()}
+          onAwnser={(awnser: string) => onAwnser(awnser)}
         />
       </Content>
     </Container>

@@ -1,6 +1,8 @@
+/* eslint-disable no-case-declarations */
+/* eslint-disable camelcase */
 import { AxiosError } from 'axios';
-import uuid from 'react-native-uuid';
-import { FetchQuestionDto, Question, QuestionAwnser } from '../../../@types/dto/question';
+import { FetchQuestionDto, QuestionAwnser } from '../../../@types/dto/question';
+import { Exam, InitialFetchQuestionsStateProps } from '../../../@types/store/app.state';
 
 export const questionsTypes = {
   FETCH_QUESTIONS_REQUEST: 'questions/FETCH_QUESTIONS_REQUEST',
@@ -14,7 +16,7 @@ export const questionsActions = {
     type: questionsTypes.FETCH_QUESTIONS_REQUEST,
     payload: data,
   }),
-  fetchQuestionsSuccess: (data: Question[]) => ({
+  fetchQuestionsSuccess: (data: Exam) => ({
     type: questionsTypes.FETCH_QUESTIONS_SUCCESS,
     payload: data,
   }),
@@ -30,15 +32,13 @@ export const questionsActions = {
 
 interface actionProps {
     type?: string;
-    payload?: AxiosError | Question[];
+    payload: any;
 }
 
-const initialState = {
-  testId: uuid.v4(),
-  questions: [],
-  awnsers: [],
+const initialState: InitialFetchQuestionsStateProps = {
+  exams: [],
   loading: false,
-  error: null,
+  error: undefined,
 };
 
 export const questionsReducer = (state = initialState, action: actionProps) => {
@@ -46,18 +46,27 @@ export const questionsReducer = (state = initialState, action: actionProps) => {
     case questionsTypes.FETCH_QUESTIONS_REQUEST:
       return { ...state, loading: true };
     case questionsTypes.FETCH_QUESTIONS_SUCCESS:
-      return { ...state, loading: false, questions: action.payload };
+      return { ...state, loading: false, exams: [...state.exams, action.payload] };
     case questionsTypes.FETCH_QUESTIONS_ERROR:
       return {
         ...state,
         loading: false,
-        questions: [],
         error: action.payload,
       };
     case questionsTypes.ANWSER_QUESTION:
+      const { correct_answer, answer, exam_id } = action.payload;
+      const examIndex = state.exams.findIndex((_exam) => _exam.exam_id === exam_id);
+
+      const exam = state.exams[examIndex];
+
+      exam.answers.push(action.payload);
+      exam.score = correct_answer === answer ? exam.score + 1 : exam.score;
+
+      state.exams[examIndex] = exam;
+
       return {
         ...state,
-        awnsers: [...state.awnsers, action.payload],
+        exams: [...state.exams],
       };
     default:
       return state;

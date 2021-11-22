@@ -14,4 +14,5 @@ export interface Question {
 
 export interface QuestionAwnser extends Question {
   answer: string;
+  exam_id?: string;
 }
