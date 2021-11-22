@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Vibration, ActivityIndicator } from 'react-native';
+import he from 'he';
+
 import colors from '~/theme/colors';
 
 import AnswerStatus from '../../enums/AnswerStatusEnum';
@@ -70,7 +72,7 @@ export default function Question({
     return answers.map((answer) => (
       <Answer
         key={answer}
-        title={answer}
+        title={he.decode(answer)}
         status={getAnswerStatus(answer)}
         onPress={() => handleAnswerClick(answer)}
       />
@@ -91,7 +93,7 @@ export default function Question({
             </QuestionIndex>
           </QuestionInfo>
           <QuestionContent>
-            <QuestionTitle>{question}</QuestionTitle>
+            <QuestionTitle>{he.decode(question)}</QuestionTitle>
           </QuestionContent>
         </QuestionContainer>
       )}
