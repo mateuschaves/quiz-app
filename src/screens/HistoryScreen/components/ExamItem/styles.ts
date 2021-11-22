@@ -3,7 +3,6 @@ import colors from '~/theme/colors';
 
 export const Container = styled.TouchableOpacity`
   border-radius: 8px;
-  width: 90%;
   background-color: ${colors.white};
   height: 120px;
   margin-top: 16px;

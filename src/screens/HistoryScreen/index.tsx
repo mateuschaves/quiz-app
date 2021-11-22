@@ -1,9 +1,9 @@
 import React from 'react';
+import { FlatList } from 'react-native';
 import { useSelector } from 'react-redux';
 import EmptyHistory from './components/EmptyHistory';
-
 import { Container } from './styles';
-import { RootState, InitialFetchQuestionsStateProps } from '../../@types/store/app.state';
+import { RootState, InitialFetchQuestionsStateProps, Exam } from '../../@types/store/app.state';
 import ExamItem from './components/ExamItem';
 
 export default function HistoryScreen() {
@@ -17,11 +17,12 @@ export default function HistoryScreen() {
 
   return (
     <Container>
-      {validExams
-        .sort((a, b) => a.time - b.time)
-        .map((exam) => (
-          <ExamItem key={exam.exam_id} exam={exam} />
-        ))}
+      <FlatList
+        contentContainerStyle={{ paddingHorizontal: 24, paddingBottom: 80 }}
+        data={validExams}
+        renderItem={({ item }: {item: Exam}) => <ExamItem key={item.exam_id} exam={item} />}
+        keyExtractor={(item: Exam) => item.exam_id}
+      />
     </Container>
   );
 }

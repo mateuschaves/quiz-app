@@ -34,7 +34,7 @@ export default function HomeScreen() {
         autoFocus
         value={quizAmount?.toString()}
         onChangeText={(value) => setQuizAmount(Number(value))}
-        keyboardType="decimal-pad"
+        keyboardType="number-pad"
         maxLength={2}
       />
       <Buttons>
